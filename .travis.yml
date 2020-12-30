@@ -1,26 +1,14 @@
-default: docker_build
 arch:
   - amd64
   - ppc64le
 
-DOCKER_IMAGE ?= lachlanevenson/k8s-kubectl
-GIT_BRANCH ?= $(shell git rev-parse --abbrev-ref HEAD)
-
-ifeq ($(GIT_BRANCH), main)
-	DOCKER_TAG = latest
-else
-	DOCKER_TAG = $(GIT_BRANCH)
-endif
-
-docker_build:
-	@docker build \
-	  --build-arg VCS_REF=`git rev-parse --short HEAD` \
-	  --build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` \
-	  -t $(DOCKER_IMAGE):$(DOCKER_TAG) .
-	  
-docker_push:
-	# Push to DockerHub
-	docker push $(DOCKER_IMAGE):$(DOCKER_TAG)
-
-test:
-	docker run $(DOCKER_IMAGE):$(DOCKER_TAG) version --client
+steps:
+- script: GIT_BRANCH=$(build.SourceBranchName) make docker_build
+  displayName: 'Build kubectl container'
+- script: GIT_BRANCH=$(build.SourceBranchName) make test
+  displayName: 'Test kubectl container'
+- script: |
+    docker login -u $(dockerId) -p $(pswd)
+    GIT_BRANCH=$(build.SourceBranchName) make docker_push
+  condition: or(startsWith(variables['Build.SourceBranchName'], 'v'), startsWith(variables['Build.SourceBranchName'], 'main'))
+  displayName: 'Publish kubectl container'
