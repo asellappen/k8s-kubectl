@@ -14,8 +14,10 @@ arch:
   - amd64
   - ppc64le
   
-before_install:
-  - sudo apt-get install -y rake
+trigger:
+- main
+- v*
+
 steps:
 - script: GIT_BRANCH=$(build.SourceBranchName) make docker_build
   displayName: 'Build kubectl container'
