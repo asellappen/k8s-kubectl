@@ -14,8 +14,12 @@ arch:
   - amd64
   - ppc64le
 
-before_install: 
- - sudo apt-get install rake
+language: ruby
+
+before_install:
+  - gem uninstall bundler
+  - gem install bundler --version '1.7.4'
+  - sudo apt-get install rake
   
 trigger:
 - main
