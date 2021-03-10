@@ -9,10 +9,13 @@
 # Script License      : Apache License, Version 2 or later
 #
 # ----------------------------------------------------------------------------
-
+sudo: required
 arch:
   - amd64
   - ppc64le
+
+before_install: 
+ - sudo apt-get install rake
   
 trigger:
 - main
