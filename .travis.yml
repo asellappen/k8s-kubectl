@@ -17,19 +17,8 @@ arch:
 services:
   - docker
   
-language: ruby
-  
-trigger:
-- main
-- v*
 
-steps:
-- script: GIT_BRANCH=$(build.SourceBranchName) make docker_build
-  displayName: 'Build kubectl container'
-- script: GIT_BRANCH=$(build.SourceBranchName) make test
-  displayName: 'Test kubectl container'
-- script: |
-    docker login -u $(dockerId) -p $(pswd)
-    GIT_BRANCH=$(build.SourceBranchName) make docker_push
-  condition: or(startsWith(variables['Build.SourceBranchName'], 'v'), startsWith(variables['Build.SourceBranchName'], 'main'))
-  displayName: 'Publish kubectl container'
+scripts:
+
+- make docker_build
+- docker run --rm lachlanevenson/k8s-kubectl:``git rev-parse --abbrev-ref HEAD`` --server=http://<server-name>:8080 get pods
