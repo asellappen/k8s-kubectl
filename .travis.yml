@@ -3,7 +3,7 @@
 # Package             : k8s-kubectl
 # Source Repo         : https://github.com/lachie83/k8s-kubectl
 # Travis Job Link     : https://travis-ci.com/github/asellappen/k8s-kubectl/
-# Created travis.yml  : No
+# Created travis.yml  : Yes
 # Maintainer          : Arumugam N S <asellappen@yahoo.com> / Priya Seth<sethp@us.ibm.com>
 #
 # Script License      : Apache License, Version 2 or later
@@ -14,12 +14,10 @@ arch:
   - amd64
   - ppc64le
 
+services:
+  - docker
+  
 language: ruby
-
-before_install:
-  - gem uninstall bundler
-  - gem install bundler --version '1.7.4'
-  - sudo apt-get install rake
   
 trigger:
 - main
