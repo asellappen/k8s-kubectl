@@ -9,7 +9,9 @@
 # Script License      : Apache License, Version 2 or later
 #
 # ----------------------------------------------------------------------------
+
 language: generic
+
 sudo: required
 arch:
   - amd64
