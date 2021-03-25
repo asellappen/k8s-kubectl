@@ -18,10 +18,7 @@ arch:
 services:
   - docker
   
-
 scripts:
 
 - make docker_build
 - make test
-- make docker_push
-#- docker run --rm lachlanevenson/k8s-kubectl:``git rev-parse --abbrev-ref HEAD`` --server=http://<server-name>:8080 get pods
